@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>00a4cb9c-a8cf-467e-b632-b3b28e924139</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworkIdentifier>Deployment</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>1.0</TargetFrameworkVersion>
+    <PrepareForBuildDependsOn>
+    </PrepareForBuildDependsOn>
+  </PropertyGroup>
+  <Import Condition=" Exists('Deployment.targets') " Project="Deployment.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <!-- vertag<:>start tokens<:>maj.min -->
+  <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
+  <!-- vertag<:>end -->
+  <ItemGroup>
+    <Content Include="Networking\uphs-core-prd-vnet\2 Virtual Network\azuredeploy.json" />
+    <Content Include="Networking\uphs-core-prd-vnet\2 Virtual Network\azuredeploy.parameters.json" />
+    <None Include="Compute\uphs-core-prd\DC\azuredeploy.json" />
+    <None Include="Compute\uphs-core-prd\DC\azuredeploy.parameters.json" />
+    <None Include="Compute\uphs-core-prd\DC\DSC\deploy-addc.ps1.zip" />
+    <None Include="Compute\uphs-core-prd\DC\DSC\PowerShell DSC Extension.ps1" />
+    <None Include="Compute\uphs-core-prd\IBNew\parameters.json" />
+    <None Include="Compute\uphs-core-prd\IBNew\template.json" />
+    <None Include="Compute\uphs-core-prd\InfoBlox\azuredeploy.json" />
+    <None Include="Compute\uphs-core-prd\InfoBlox\azuredeploy.parameters.json" />
+    <None Include="Compute\uphs-core-prd\Palo Alto FW\azuredeploy.json" />
+    <None Include="Compute\uphs-core-prd\Palo Alto FW\azuredeploy.parameters.json" />
+    <None Include="Compute\uphs-core-prd\Rapid7\azuredeploy.json" />
+    <None Include="Compute\uphs-core-prd\Rapid7\azuredeploy.parameters.json" />
+    <None Include="Deployment.targets">
+      <Visible>False</Visible>
+    </None>
+    <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <None Include="DSC\deploy-addc.ps1.zip" />
+    <None Include="DSC\inf-jumpbox.zip" />
+    <None Include="DSC\inf-winbase.zip" />
+    <None Include="Key Vault\azuredeploy.json" />
+    <None Include="Key Vault\azuredeploy.parameters.json" />
+    <None Include="Networking\uphs-core-prd-vnet\1 UDR\azuredeploy.json" />
+    <None Include="Networking\uphs-core-prd-vnet\1 UDR\azuredeploy.parameters.json" />
+    <None Include="Networking\uphs-core-prd-vnet\5 Peering\azuredeploy.corepeering.new.json" />
+    <None Include="Networking\uphs-core-prd-vnet\5 Peering\azuredeploy.corepeering.parameters.new.json" />
+    <None Include="Networking\uphs-core-prd-vnet\3 ExpressRoute\azuredeploy.json" />
+    <None Include="Networking\uphs-core-prd-vnet\3 ExpressRoute\azuredeploy.parameters.json" />
+    <None Include="Networking\uphs-core-prd-vnet\4 VPN\azuredeploy.json" />
+    <None Include="Networking\uphs-core-prd-vnet\4 VPN\azuredeploy.parameters.json" />
+    <None Include="Networking\psom-dev-vnet\3 Peering\azuredeploy.corepeering.new.json" />
+    <None Include="Networking\psom-dev-vnet\3 Peering\azuredeploy.corepeering.parameters.new.json" />
+    <None Include="Networking\psom-dev-vnet\1 UDR\azuredeploy.dev.udr.json" />
+    <None Include="Networking\psom-dev-vnet\1 UDR\azuredeploy.parameters.dev.udr.json" />
+    <None Include="Networking\psom-dev-vnet\2 Virtual Network\azuredeploy.json" />
+    <None Include="Networking\psom-dev-vnet\2 Virtual Network\azuredeploy.parameters.json" />
+    <None Include="Networking\psom-prd-vnet\3 Peering\azuredeploy.corepeering.new.json" />
+    <None Include="Networking\psom-prd-vnet\3 Peering\azuredeploy.corepeering.parameters.new.json" />
+    <None Include="Networking\psom-prd-vnet\1 UDR\azuredeploy.parameters.prd.udr.json" />
+    <None Include="Networking\psom-prd-vnet\1 UDR\azuredeploy.prd.udr.json" />
+    <None Include="Networking\psom-prd-vnet\2 Virtual Network\azuredeploy.json" />
+    <None Include="Networking\psom-prd-vnet\2 Virtual Network\azuredeploy.parameters.json" />
+    <None Include="Networking\psom-qa-vnet\3 Peering\azuredeploy.corepeering.new.json" />
+    <None Include="Networking\psom-qa-vnet\3 Peering\azuredeploy.corepeering.parameters.new.json" />
+    <None Include="Networking\psom-qa-vnet\1 UDR\azuredeploy.parameters.qa.udr.json" />
+    <None Include="Networking\psom-qa-vnet\1 UDR\azuredeploy.qa.udr.json" />
+    <None Include="Networking\psom-qa-vnet\2 Virtual Network\azuredeploy.json" />
+    <None Include="Networking\psom-qa-vnet\2 Virtual Network\azuredeploy.parameters.json" />
+    <None Include="Networking\uphs-core-prd-vnet\6 Load Balancer\loadbalancer.deploy.json" />
+    <None Include="Networking\uphs-core-prd-vnet\6 Load Balancer\loadbalancer.parameters.json" />
+    <None Include="Networking\uphs-dev-vnet\3 Peering\azuredeploy.corepeering.new.json" />
+    <None Include="Networking\uphs-dev-vnet\3 Peering\azuredeploy.corepeering.parameters.new.json" />
+    <None Include="Networking\uphs-dev-vnet\1 UDR\azuredeploy.parameters.dev.udr.json" />
+    <None Include="Networking\uphs-dev-vnet\1 UDR\azuredeploy.dev.udr.json" />
+    <None Include="Networking\uphs-dev-vnet\2 Virtual Network\azuredeploy.json" />
+    <None Include="Networking\uphs-dev-vnet\2 Virtual Network\azuredeploy.parameters.json" />
+    <None Include="Networking\uphs-prd-vnet\3 Peering\azuredeploy.corepeering.new.json" />
+    <None Include="Networking\uphs-prd-vnet\3 Peering\azuredeploy.corepeering.parameters.new.json" />
+    <None Include="Networking\uphs-prd-vnet\1 UDR\azuredeploy.parameters.prd.udr.json" />
+    <None Include="Networking\uphs-prd-vnet\1 UDR\azuredeploy.prd.udr.json" />
+    <None Include="Networking\uphs-prd-vnet\2 Virtual Network\azuredeploy.json" />
+    <None Include="Networking\uphs-prd-vnet\2 Virtual Network\azuredeploy.parameters.json" />
+    <None Include="Networking\uphs-qa-vnet\3 Peering\azuredeploy.corepeering.new.json" />
+    <None Include="Networking\uphs-qa-vnet\3 Peering\azuredeploy.corepeering.parameters.new.json" />
+    <None Include="Networking\uphs-qa-vnet\1 UDR\azuredeploy.parameters.qa.udr.json" />
+    <None Include="Networking\uphs-qa-vnet\1 UDR\azuredeploy.qa.udr.json" />
+    <None Include="Networking\uphs-qa-vnet\2 Virtual Network\azuredeploy.json" />
+    <None Include="Networking\uphs-qa-vnet\2 Virtual Network\azuredeploy.parameters.json" />
+    <None Include="OMS\azuredeploy.json" />
+    <None Include="OMS\azuredeploy.parameters.json" />
+    <None Include="Recovery Services\azuredeploy.json" />
+    <None Include="Recovery Services\azuredeploy.parameters.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Compute\uphs-core-prd\JumpBox Public\" />
+    <Folder Include="Compute\uphs-core-prd\JumpBox Private\" />
+    <Folder Include="Compute\psom-qa\" />
+    <Folder Include="Compute\psom-prd\" />
+    <Folder Include="Compute\psom-dev\" />
+    <Folder Include="Storage\" />
+  </ItemGroup>
+  <Target Name="GetReferenceAssemblyPaths" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

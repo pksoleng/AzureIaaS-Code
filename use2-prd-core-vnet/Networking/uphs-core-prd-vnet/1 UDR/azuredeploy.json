@@ -1,0 +1,381 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "routeTable1Name": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "routeTable2Name": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+
+    "routeTable3Name": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "routeTable4Name": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt1-Route1": {
+      "type": "string"
+    },
+    "rt1-Route2": {
+      "type": "string"
+    },
+    "rt1-Route3": {
+      "type": "string"
+    },
+    "rt1-Route4": {
+      "type": "string"
+    },
+    "rt1-Route5": {
+      "type": "string"
+    },
+    "rt1-Route6": {
+      "type": "string"
+    },
+    "rt1-Route7": {
+      "type": "string"
+    },
+    "rt1-Route8": {
+      "type": "string"
+    },
+    "rt1-Route9": {
+      "type": "string"
+    },
+    "rt1-Route10": {
+      "type": "string"
+    },
+    "rt1-Route11": {
+      "type": "string"
+    },
+    "rt1-Route12": {
+      "type": "string"
+    },
+    "rt1-Route13": {
+      "type": "string"
+    },
+    "rt1-Route14": {
+      "type": "string"
+    },
+    "rt2-Route1": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt2-Route2": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt3-Route1": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt4-Route1": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt4-Route2": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt4-Route3": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt4-Route4": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt4-Route5": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt4-Route6": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    },
+    "rt4-Route7": {
+      "defaultValue": "psom-core-prd-net-udr",
+      "type": "string"
+    }
+
+  },
+  "variables": {
+    "uphsNextHopIp": "10.145.0.75",
+    "psomNextHopIp": "10.145.0.76"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/routeTables",
+      "name": "[parameters('routeTable1Name')]",
+      "apiVersion": "2017-10-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Resource Type": "UPDATE: (VM, NVA, DB)",
+        "Cost Code": "UPDATE: (IT2087, UH8979)",
+        "Entity": "UPHS",
+        "Deployment Environment": "PRD"
+      },
+      "scale": null,
+      "properties": {
+        "provisioningState": "Succeeded",
+        "disableBgpRoutePropagation": false,
+        "routes": [
+          {
+            "name": "[parameters('rt1-Route1')]",
+            "properties": {
+              "addressPrefix": "0.0.0.0/0",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route2')]",
+            "properties": {
+              "addressPrefix": "10.145.0.32/27",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route3')]",
+            "properties": {
+              "addressPrefix": "10.145.0.64/27",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route4')]",
+            "properties": {
+              "addressPrefix": "10.145.0.96/27",
+              "nextHopType": "None"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route5')]",
+            "properties": {
+              "addressPrefix": "10.145.0.128/27",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route6')]",
+            "properties": {
+              "addressPrefix": "10.145.0.160/27",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route7')]",
+            "properties": {
+              "addressPrefix": "10.145.0.192/27",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route8')]",
+            "properties": {
+              "addressPrefix": "10.145.0.224/27",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route9')]",
+            "properties": {
+              "addressPrefix": "10.145.1.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route10')]",
+            "properties": {
+              "addressPrefix": "10.145.2.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route11')]",
+            "properties": {
+              "addressPrefix": "10.145.3.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route12')]",
+            "properties": {
+              "addressPrefix": "10.157.1.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route13')]",
+            "properties": {
+              "addressPrefix": "10.157.2.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt1-Route14')]",
+            "properties": {
+              "addressPrefix": "10.157.3.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    },
+    {
+      "type": "Microsoft.Network/routeTables",
+      "name": "[parameters('routeTable2Name')]",
+      "apiVersion": "2017-10-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Resource Type": "UPDATE: (VM, NVA, DB)",
+        "Cost Code": "UPDATE: (IT2087, UH8979)",
+        "Entity": "UPHS",
+        "Deployment Environment": "PRD"
+      },
+      "scale": null,
+      "properties": {
+        "provisioningState": "Succeeded",
+        "disableBgpRoutePropagation": false,
+        "routes": [
+          {
+            "name": "[parameters('rt2-Route1')]",
+            "properties": {
+              "addressPrefix": "10.145.0.96/27",
+              "nextHopType": "VnetLocal"
+            }
+          },
+          {
+            "name": "[parameters('rt2-Route2')]",
+            "properties": {
+              "addressPrefix": "10.145.0.160/27",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    },
+    {
+      "type": "Microsoft.Network/routeTables",
+      "name": "[parameters('routeTable3Name')]",
+      "apiVersion": "2017-10-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Resource Type": "UPDATE: (VM, NVA, DB)",
+        "Cost Code": "UPDATE: (IT2087, UH8979)",
+        "Entity": "UPHS",
+        "Deployment Environment": "PRD"
+      },
+      "scale": null,
+      "properties": {
+        "provisioningState": "Succeeded",
+        "disableBgpRoutePropagation": false,
+        "routes": [
+          {
+            "name": "[parameters('rt3-Route1')]",
+            "properties": {
+              "addressPrefix": "10.145.0.96/27",
+              "nextHopType": "VnetLocal"
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    },
+    {
+      "type": "Microsoft.Network/routeTables",
+      "name": "[parameters('routeTable4Name')]",
+      "apiVersion": "2017-10-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Resource Type": "UPDATE: (VM, NVA, DB)",
+        "Cost Code": "UPDATE: (IT2087, UH8979)",
+        "Entity": "UPHS",
+        "Deployment Environment": "PRD"
+      },
+      "scale": null,
+      "properties": {
+        "provisioningState": "Succeeded",
+        "disableBgpRoutePropagation": false,
+        "routes": [
+          {
+            "name": "[parameters('rt4-Route1')]",
+            "properties": {
+              "addressPrefix": "10.145.0.96/27",
+              "nextHopType": "VnetLocal"
+            }
+          },
+          {
+            "name": "[parameters('rt4-Route2')]",
+            "properties": {
+              "addressPrefix": "10.157.1.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('psomNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt4-Route3')]",
+            "properties": {
+              "addressPrefix": "10.157.3.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('psomNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt4-Route4')]",
+            "properties": {
+              "addressPrefix": "10.157.2.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('psomNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt4-Route5')]",
+            "properties": {
+              "addressPrefix": "10.145.1.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt4-Route6')]",
+            "properties": {
+              "addressPrefix": "10.145.3.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          },
+          {
+            "name": "[parameters('rt4-Route7')]",
+            "properties": {
+              "addressPrefix": "10.145.2.0/24",
+              "nextHopType": "VirtualAppliance",
+              "nextHopIpAddress": "[variables('uphsNextHopIp')]"
+            }
+          }
+        ]
+      },
+      "dependsOn": []
+    }
+
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "existingLocalVirtualNetworkName": {
+      "value": "use2-psom-qa-vnet"
+    },
+    "existing1RemoteVirtualNetworkName": {
+      "value": "use2-uphs-core-prd-vnet"
+    },
+    "existing1RemoteVirtualNetworkResourceGroupName": {
+      "value": "use2-uphs-core-prd-net-rg"
+    },
+    "existing1RemoteVirtualNetworkSubscriptionID": {
+      "value": "715efb78-31ca-4440-b390-fe6fbd2e5e08"
+    }
+  }
+}

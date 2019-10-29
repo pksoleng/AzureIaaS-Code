@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "udrName": {
+      "defaultValue": "uphs-qa-udr",
+      "type": "string"
+    },
+    "vNetName": {
+      "type": "string"
+    },
+    "defaultRouteName": {
+      "type": "string"
+    },
+  "routeName": {
+    "type": "string"
+  }
+},
+  "variables": {
+    "nextHopIp": "10.145.0.75"
+  },
+    "resources": [
+      {
+        "type": "Microsoft.Network/routeTables",
+        "name": "[parameters('udrName')]",
+        "apiVersion": "2017-10-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "Resource Type": "UPDATE: (VM, NVA, DB)",
+          "Cost Code": "UPDATE: (IT2087, UH8979)",
+          "Entity": "UPHS",
+          "Deployment Environment": "PRD"
+        },
+        "scale": null,
+        "properties": {
+          "disableBgpRoutePropagation": false,
+          "routes": [
+            {
+              "name": "[parameters('defaultRouteName')]",
+              "properties": {
+                "addressPrefix": "0.0.0.0/0",
+                "nextHopType": "VirtualAppliance",
+                "nextHopIpAddress": "[variables('nextHopIp')]"
+              }
+            },
+            {
+              "name": "[parameters('routeName')]",
+              "properties": {
+                "addressPrefix": "10.145.0.0/24",
+                "nextHopType": "VirtualAppliance",
+                "nextHopIpAddress": "[variables('nextHopIp')]"
+              }
+            }
+          ]
+        },
+        "dependsOn": []
+      }
+    ]
+}

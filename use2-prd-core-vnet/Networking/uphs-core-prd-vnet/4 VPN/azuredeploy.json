@@ -1,0 +1,155 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "connectionName": {
+      "type": "string"
+    },
+    "vpnPipName": {
+      "type": "string"
+    },
+    "vNetName": {
+      "type": "string"
+    },
+    "gatewayName": {
+      "type": "string"
+    },
+    "localGatewayName": {
+      "type": "string"
+    },
+    "gatewaySubnet": {
+      "type": "string"
+    }
+  },
+    "variables": {},
+    "resources": [
+      {
+        "name": "[parameters('connectionName')]",
+        "type": "Microsoft.Network/connections",
+        "apiVersion": "2015-06-15",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "Resource Type": "UPDATE: (VM, NVA, DB)",
+          "Cost Code": "UPDATE: (IT2087, UH8979)",
+          "Entity": "UPHS",
+          "Deployment Environment": "PRD"
+        },
+        "scale": null,
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/localNetworkGateways', parameters('localGatewayName'))]",
+          "[resourceId('Microsoft.Network/virtualNetworkGateways', parameters('gatewayName'))]"
+        ],
+        "properties": {
+          "virtualNetworkGateway1": {
+            "id": "[resourceId('Microsoft.Network/virtualNetworkGateways', parameters('gatewayName'))]"
+          },
+          "localNetworkGateway2": {
+            "id": "[resourceId('Microsoft.Network/localNetworkGateways', parameters('localGatewayName'))]"
+          },
+          "connectionType": "IPsec",
+          "routingWeight": 0,
+          "sharedKey": "asdf123",
+          "enableBgp": false,
+          "usePolicyBasedTrafficSelectors": false,
+          "ipsecPolicies": []
+        }
+      },
+      {
+        "type": "Microsoft.Network/localNetworkGateways",
+        "name": "[parameters('localGatewayName')]",
+        "apiVersion": "2017-10-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "Resource Type": "UPDATE: (VM, NVA, DB)",
+          "Cost Code": "UPDATE: (IT2087, UH8979)",
+          "Entity": "UPHS",
+          "Deployment Environment": "PRD"
+        },
+        "scale": null,
+        "properties": {
+          "localNetworkAddressSpace": {
+            "addressPrefixes": [
+              "170.212.0.0/16",
+              "170.166.0.0/16"
+            ]
+          },
+          "gatewayIpAddress": "170.212.0.8"
+        },
+        "dependsOn": []
+      },
+      {
+        "type": "Microsoft.Network/publicIPAddresses",
+        "sku": {
+          "name": "Basic"
+        },
+        "name": "[parameters('vpnPipName')]",
+        "apiVersion": "2017-10-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "Resource Type": "UPDATE: (VM, NVA, DB)",
+          "Cost Code": "UPDATE: (IT2087, UH8979)",
+          "Entity": "UPHS",
+          "Deployment Environment": "PRD"
+        },
+        "scale": null,
+        "properties": {
+          "ipAddress": "53.77.83.186",
+          "publicIPAddressVersion": "IPv4",
+          "publicIPAllocationMethod": "Dynamic",
+          "idleTimeoutInMinutes": 4
+        },
+        "dependsOn": []
+      },
+      {
+        "type": "Microsoft.Network/virtualNetworkGateways",
+        "name": "[parameters('gatewayName')]",
+        "apiVersion": "2017-10-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+          "Resource Type": "UPDATE: (VM, NVA, DB)",
+          "Cost Code": "UPDATE: (IT2087, UH8979)",
+          "Entity": "UPHS",
+          "Deployment Environment": "PRD"
+        },
+        "scale": null,
+        "properties": {
+          "ipConfigurations": [
+            {
+              "name": "default",
+              "properties": {
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vpnPipName'))]"
+                },
+                "subnet": {
+                  "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vNetName'), parameters('gatewaySubnet'))]"
+                }
+              }
+            }
+          ],
+          "sku": {
+            "name": "HighPerformance",
+            "tier": "HighPerformance",
+            "capacity": 2
+          },
+          "gatewayType": "Vpn",
+          "vpnType": "RouteBased",
+          "enableBgp": false,
+          "activeActive": false,
+          "vpnClientConfiguration": {
+            "vpnClientProtocols": [],
+            "vpnClientRootCertificates": [],
+            "vpnClientRevokedCertificates": []
+          },
+          "bgpSettings": {
+            "asn": 65515,
+            "bgpPeeringAddress": "10.144.255.20",
+            "peerWeight": 0
+          }
+        },
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/publicIPAddresses', parameters('vpnPipName'))]"
+        ]
+      }
+    ]
+}

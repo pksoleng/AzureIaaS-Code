@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "value": "use2-psom-dev-vnet"
+    },
+    "vnetAddressPrefix": {
+      "value": "10.157.1.0/24"
+    },
+    "subnet1Prefix": {
+      "value": "10.157.1.0/26"
+    },
+    "subnet1Name": {
+      "value": "GatewaySubnet"
+    },
+    "subnet2Prefix": {
+      "value": "10.157.1.64/26"
+    },
+    "subnet2Name": {
+      "value": "psomdevsub1"
+    },
+    "subnet3Prefix": {
+      "value": "10.157.1.128/26"
+    },
+    "subnet3Name": {
+      "value": "psomdevsub2"
+    },
+    "subnet4Prefix": {
+      "value": "10.157.1.192/26"
+    },
+    "subnet4Name": {
+      "value": "psomdevsub3"
+    },
+    "resourceType": {
+      "value": ""
+    },
+    "costCode": {
+      "value": ""
+    }
+    },
+    "entity": {
+      "value": ""
+    },
+    "deploymentEnvironment": {
+      "value": ""
+  }
+}

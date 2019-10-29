@@ -1,0 +1,90 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "routeTable1Name": {
+      "value": "use2-uphs-core-prd-net-udr"
+    },
+    "routeTable2Name": {
+      "value": "use2-uphs-core-prd-jbx-udr"
+    },
+    "routeTable3Name": {
+      "value": "use2-uphs-core-prd-mgmt-udr"
+    },
+    "routeTable4Name": {
+      "value": "use2-uphs-core-prd-gtwy-udr"
+    },
+    "rt1-Route1": {
+      "value": "DefaultRoute"
+    },
+    "rt1-Route2": {
+      "value": "To-core-prd-ext-rt"
+    },
+    "rt1-Route3": {
+      "value": "To-core-prd-int-rt"
+    },
+    "rt1-Route4": {
+      "value": "To-core-prd-mgmt-rt"
+    },
+    "rt1-Route5": {
+      "value": "To-core-prd-ds-rt"
+    },
+    "rt1-Route6": {
+      "value": "To-core-prd-ss-rt"
+    },
+    "rt1-Route7": {
+      "value": "To-core-prd-jbx-rt"
+    },
+    "rt1-Route8": {
+      "value": "To-core-prd-sub1-rt"
+    },
+    "rt1-Route9": {
+      "value": "To-uphs-dev-vnet-rt"
+    },
+    "rt1-Route10": {
+      "value": "To-uphs-qa-vnet-rt"
+    },
+    "rt1-Route11": {
+      "value": "To-uphs-prd-vnet-rt"
+    },
+    "rt1-Route12": {
+      "value": "To-psom-dev-net-rt"
+    },
+    "rt1-Route13": {
+      "value": "To-psom-qa-net-rt"
+    },
+    "rt1-Route14": {
+      "value": "To-psom-prd-net-rt"
+    },
+    "rt2-Route1": {
+      "value": "To-core-prd-mgmt"
+    },
+    "rt2-Route2": {
+      "value": "To-core-prd-ss-ForTestingOnly"
+    },
+    "rt3-Route1": {
+      "value": "To-core-prd-mgmt"
+    },
+    "rt4-Route1": {
+      "value": "To-core-prd-mgmt"
+    },
+    "rt4-Route2": {
+      "value": "To-core-prd-psom-dev"
+    },
+    "rt4-Route3": {
+      "value": "To-core-prd-psom-prd"
+    },
+    "rt4-Route4": {
+      "value": "To-core-prd-psom-qa"
+    },
+    "rt4-Route5": {
+      "value": "To-core-prd-uphs-dev"
+    },
+    "rt4-Route6": {
+      "value": "To-core-prd-uphs-prd"
+    },
+    "rt4-Route7": {
+      "value": "To-core-prd-uphs-qa"
+    }
+  }
+}

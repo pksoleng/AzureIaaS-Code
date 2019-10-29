@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "connectionName": {
+      "value": "use2-uphs-core-prd-vpn"
+    },    
+    "gatewayName": {
+      "value": "use2-uphs-core-prd-vng"
+    },
+    "vpnPipName": {
+      "value": "use2-uphs-core-prd-vng-pip"
+    },
+    "vNetName": {
+      "value": "use2-uphs-core-prd-vnet"
+    },
+    "localGatewayName": {
+      "value": "use2-uphs-core-prd-lng"
+    },
+    "gatewaySubnet": {
+      "value": "GatewaySubnet"
+    },
+      "connectionName": {
+          "value": "use2-uphs-core-prd-vpn"
+      }
+  }
+}

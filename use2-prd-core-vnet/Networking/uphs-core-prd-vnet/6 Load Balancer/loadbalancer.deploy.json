@@ -1,0 +1,203 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetName": {
+      "type": "string",
+      "metadata": {
+        "description": "This is the name of the Virtual Network"
+      }
+    },
+    "loadBalancerName": {
+      "type": "string",
+      "metadata": {
+        "description": "This is the name of the load balancer"
+      }
+    },
+    "subnetName": {
+      "type": "string"
+    },
+    "frontEndIp1": {
+      "type": "string"
+    },
+    "frontEndIp2": {
+      "type": "string"
+    },
+    "frontEndIpName1": {
+      "type": "string"
+    },
+    "frontEndIpName2": {
+      "type": "string"
+    },
+    "backEndPoolName1": {
+      "type": "string"
+    },
+    "backEndPoolName2": {
+      "type": "string"
+    },
+    "lbRuleName1": {
+      "type": "string"
+    },
+    "lbRuleName2": {
+      "type": "string"
+    },
+    "lbProbe1Name": {
+      "type": "string"
+    },
+    "lbProbe2Name": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "lbID": "[resourceId('Microsoft.Network/loadBalancers',parameters('loadBalancerName'))]",
+    "eth0-VM-SeriesVnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
+    "subnetRef": "[concat(variables('eth0-VM-SeriesVnetID'), '/subnets/', parameters('subnetName'))]"
+
+  },
+  "resources": [
+
+    {
+      "apiVersion": "2017-10-01",
+      "type": "Microsoft.Network/loadBalancers",
+      "name": "[parameters('loadBalancerName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Resource Type": "UPDATE: (VM, NVA, DB)",
+        "Cost Code": "UPDATE: (IT2087, UH8979)",
+        "Entity": "UPHS",
+        "Deployment Environment": "PRD"
+      },
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "[parameters('frontEndIpName1')]",
+            "properties": {
+              "privateIPAddress": "[parameters('frontEndIp1')]",
+              "privateIPAllocationMethod": "Static",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('frontEndIpName2')]",
+            "properties": {
+              "privateIPAddress": "[parameters('frontEndIp2')]",
+              "privateIPAllocationMethod": "Static",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "[parameters('backEndPoolName1')]",
+            "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-net-rg/providers/Microsoft.Network/loadBalancers/use2-uphs-core-prd-ilb/backendAddressPools/uphs-core-prd-bep",
+            "properties": {
+              "backendIPConfigurations": [
+                {
+                  "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-net-rg/providers/Microsoft.Network/networkInterfaces/use2coreprdfwvm01-nic2/ipConfigurations/ipconfig1"
+                },
+                {
+                  "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-net-rg/providers/Microsoft.Network/networkInterfaces/use2coreprdfwvm02-nic2/ipConfigurations/ipconfig1"
+                }
+              ],
+              "loadBalancingRules": [
+                {
+                  "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-net-rg/providers/Microsoft.Network/loadBalancers/use2-uphs-core-prd-ilb/loadBalancingRules/use2-uphs-lb-rule"
+                }
+              ]
+            }
+          },
+          {
+            "name": "[parameters('backEndPoolName2')]",
+            "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-net-rg/providers/Microsoft.Network/loadBalancers/use2-uphs-core-prd-ilb/backendAddressPools/psom-core-prd-bep",
+            "properties": {
+              "backendIPConfigurations": [
+                {
+                  "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-net-rg/providers/Microsoft.Network/networkInterfaces/use2coreprdfwvm01-nic3/ipConfigurations/ipconfig1"
+                },
+                {
+                  "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-net-rg/providers/Microsoft.Network/networkInterfaces/use2coreprdfwvm02-nic3/ipConfigurations/ipconfig1"
+                }
+              ],
+              "loadBalancingRules": [
+                {
+                  "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-net-rg/providers/Microsoft.Network/loadBalancers/use2-uphs-core-prd-ilb/loadBalancingRules/use2-psom-lb-rule"
+                }
+              ]
+            }
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "[parameters('lbRuleName1')]",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancerName')), '/frontendIpConfigurations/', parameters('frontEndIpName1'))]"
+              },
+              "backendAddressPool": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancerName')), '/backendAddressPools/', parameters('backEndPoolName1'))]"
+              },
+              "probe": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancerName')), '/probes/', parameters('lbProbe1Name'))]"
+              },
+              "frontendPort": 0,
+              "backendPort": 0,
+              "enableFloatingIP": false,
+              "protocol": "All",
+              "idleTimeoutInMinutes": 15,
+              "loadDistribution": "SourceIP"
+            }
+          },
+          {
+            "name": "[parameters('lbRuleName2')]",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancerName')), '/frontendIpConfigurations/', parameters('frontEndIpName2'))]"
+              },
+              "backendAddressPool": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancerName')), '/backendAddressPools/', parameters('backEndPoolName2'))]"
+              },
+              "probe": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancerName')), '/probes/', parameters('lbProbe2Name'))]"
+              },
+              "frontendPort": 0,
+              "backendPort": 0,
+              "enableFloatingIP": false,
+              "protocol": "All",
+              "idleTimeoutInMinutes": 15,
+              "loadDistribution": "SourceIP"
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "[parameters('lbProbe1Name')]",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 15,
+              "numberOfProbes": 2
+            }
+          },
+          {
+            "name": "[parameters('lbProbe2Name')]",
+            "properties": {
+              "protocol": "Tcp",
+              "port": 80,
+              "intervalInSeconds": 15,
+              "numberOfProbes": 2
+            }
+          }
+        ]
+      }
+    }
+  ],
+    "outputs": {
+    }
+}

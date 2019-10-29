@@ -1,0 +1,417 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetName": {
+      "type": "string",
+      "metadata": {
+        "description": "This is the name of the Virtual Network"
+      }
+    },
+    "subnet1Name": {
+      "type": "string",
+      "metadata": {
+        "description": "MGMT subnet name"
+      }
+    },
+    "subnet2Name": {
+      "type": "string",
+      "metadata": {
+        "description": "Internal subnet name"
+      }
+    },
+    "subnet3Name": {
+      "type": "string",
+      "metadata": {
+        "description": "External subnet name"
+      }
+    },
+    "nicName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account name"
+      }
+    },
+    "localAdminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username"
+      }
+    },
+    "localAdminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password"
+      }
+    },
+    "vmName": {
+      "type": "string",
+      "metadata": {
+        "description": "This is the prefix name for the virtual machines"
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "metadata": {
+        "description": "This is the allowed list of VM sizes"
+      }
+    },
+    "imagePublisher": {
+      "type": "string",
+      "metadata": {
+        "description": "Image Publisher"
+      }
+    },
+    "imageOffer": {
+      "type": "string",
+      "metadata": {
+        "description": "Image Offer"
+      }
+    },
+    "imageSKU": {
+      "type": "string",
+      "metadata": {
+        "description": "Image SKU"
+      }
+    },
+    "imageVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "Image Version"
+      }
+    },
+    "loadBalancerName": {
+      "type": "string",
+      "metadata": {
+        "description": "load balancer name"
+      }
+    },
+    "backendPool1": {
+      "type": "string",
+      "metadata": {
+        "description": "backend pool 1 name"
+      }
+    },
+    "backendPool2": {
+      "type": "string",
+      "metadata": {
+        "description": "backend pool 2 name"
+      }
+    },
+    "deviceCount": {
+      "type": "int",
+      "metadata": { "description": "Device count" }
+    },
+    "resourceType": {
+      "type": "string",
+      "defaultValue": "UPDATE: (VM, NVA, DB)",
+      "metadata": {
+        "description": "Resource type tag applied to resources"
+      }
+    },
+    "costCode": {
+      "type": "string",
+      "defaultValue": "UPDATE: (IT2087, UH8979)",
+      "metadata": {
+        "description": "Cost code tag applied to resources"
+      }
+    },
+    "entity": {
+      "type": "string",
+      "defaultValue": "UPHS",
+      "metadata": {
+        "description": "Entity tag applied to resources"
+      }
+    },
+    "deploymentEnvironment": {
+      "type": "string",
+      "defaultValue": "PRD",
+      "metadata": {
+        "description": "Deployment environment tag applied to resources"
+      }
+    }
+  },
+  "variables": {
+    "eth0-VM-SeriesVnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
+    "eth0-VM-SeriesSubnetRef": "[concat(variables('eth0-VM-SeriesVnetID'), '/subnets/', parameters('subnet1Name'))]",
+    "eth1-VM-SeriesVnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
+    "eth1-VM-SeriesSubnetRef": "[concat(variables('eth1-VM-SeriesVnetID'), '/subnets/', parameters('subnet2Name'))]",
+    "eth2-VM-SeriesVnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
+    "eth2-VM-SeriesSubnetRef": "[concat(variables('eth2-VM-SeriesVnetID'), '/subnets/', parameters('subnet3Name'))]",
+    "loadBalancerId": "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancerName'))]",
+    "backendAddPool1Ref": "[concat(variables('loadBalancerId'), '/backendAddressPools/', parameters('backendPool1') )]",
+    "backendAddPool2Ref": "[concat(variables('loadBalancerId'), '/backendAddressPools/', parameters('backendPool2') )]",
+    "storageAccountType": "Standard_LRS",
+    "nicName": "[parameters('nicName')]",
+    "nicApi": "2017-10-01"
+  },
+  "resources": [
+    {
+      "name": "[concat(variables('nicName'), '0', copyindex(1), '-nic1')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('nicApi')]",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('deviceCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('eth0-VM-SeriesSubnetRef')]"
+              }
+            }
+          }
+        ],
+        "enableAcceleratedNetworking": true,
+        "enableIPForwarding": false
+      }
+    },
+    {
+      "name": "[concat(variables('nicName'), '0', copyindex(1), '-nic2')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('nicApi')]",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },      
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('deviceCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('eth1-VM-SeriesSubnetRef')]"
+              },
+              "privateIPAddressVersion": "IPv4",
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[variables('backendAddPool1Ref')]"
+                }
+              ]
+            }
+          }
+        ],
+        "enableAcceleratedNetworking": true,
+        "enableIPForwarding": true
+      }
+    },
+    {
+      "name": "[concat(variables('nicName'), '0', copyindex(1), '-nic3')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('nicApi')]",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('deviceCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('eth1-VM-SeriesSubnetRef')]"
+              },
+              "privateIPAddressVersion": "IPv4",
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[variables('backendAddPool2Ref')]"
+                }
+              ]
+            }
+          }
+        ],
+        "enableAcceleratedNetworking": true,
+        "enableIPForwarding": true
+      }
+    },
+    {
+      "name": "[concat(variables('nicName'), '0', copyindex(1), '-nic4')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('nicApi')]",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('deviceCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('eth2-VM-SeriesSubnetRef')]"
+              }
+            }
+          }
+        ],
+        "enableAcceleratedNetworking": true,
+        "enableIPForwarding": true
+      }
+    },
+    {
+      "name": "[concat(variables('nicName'), '0', copyindex(1), '-nic5')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('nicApi')]",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('deviceCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('eth2-VM-SeriesSubnetRef')]"
+              }
+            }
+          }
+        ],
+        "enableAcceleratedNetworking": true,
+        "enableIPForwarding": true
+      }
+    },
+    {
+      "name": "[parameters('storageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-05-01-preview",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },
+    {
+      "name": "[concat(parameters('vmName'), copyindex(1))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-30-preview",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },
+      "copy": {
+        "name": "virtualMachineLoop",
+        "count": "[parameters('deviceCount')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '0', copyindex(1), '-nic1')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '0', copyindex(1), '-nic2')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '0', copyindex(1), '-nic3')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '0', copyindex(1), '-nic4')]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), '0', copyindex(1), '-nic5')]"
+      ],
+      "plan": {
+        "publisher": "[parameters('imagePublisher')]",
+        "product": "[parameters('imageOffer')]",
+        "name": "[parameters('imageSKU')]"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[concat(parameters('vmName'), copyIndex())]",
+          "adminUsername": "[parameters('localAdminUsername')]",
+          "adminPassword": "[parameters('localAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('imagePublisher')]",
+            "offer": "[parameters('imageOffer')]",
+            "sku": "[parameters('imageSKU')]",
+            "version": "[parameters('imageVersion')]"
+          },
+          "osDisk": {
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicName'), '0', copyindex(1), '-nic1'))]",
+              "properties": { "primary": true }
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicName'), '0', copyindex(1), '-nic2'))]",
+              "properties": { "primary": false }
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicName'), '0', copyindex(1), '-nic3'))]",
+              "properties": { "primary": false }
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicName'), '0', copyindex(1), '-nic4'))]",
+              "properties": { "primary": false }
+            },
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('nicName'), '0', copyindex(1), '-nic5'))]",
+              "properties": { "primary": false }
+            }
+          ]
+        },
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": true,
+            "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net')]"
+          }
+        }
+      }
+    }
+  ],
+      "outputs": {}
+}

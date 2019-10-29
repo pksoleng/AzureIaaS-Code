@@ -1,0 +1,77 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetName": {
+      "value": "use2-uphs-core-prd-vnet"
+    },
+    "subnet1Name": {
+      "value": "coreprdmgmtsub"
+    },
+    "subnet2Name": {
+      "value": "coreprdintsub"
+    },
+    "subnet3Name": {
+      "value": "coreprdextsub"
+    },
+    "nicName": {
+      "value": "use2coreprdfwvm"
+    },
+    "vmName": {
+      "value": "use2-uphs-fw-vm0"
+    },
+    "storageAccountName": {
+      "value": "use2coreprdfw01st01"
+    },
+    "deviceCount": {
+      "value": 2
+    },
+    "vmSize": {
+      "value": "Standard_D5_v2"
+    },
+    "imagePublisher": {
+      "value": "paloaltonetworks"
+    },
+    "imageOffer": {
+      "value": "vmseries1"
+    },
+    "imageSKU": {
+      "value": "byol"
+    },
+    "imageVersion": {
+      "value": "latest"
+    },
+    "localAdminUsername": {
+      "value": "localadmin"
+    },
+    "localAdminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-kv-rg/providers/Microsoft.KeyVault/vaults/uphs-prd-core-kv"
+        },
+        "secretName": "localAdmin"
+      }
+    },
+    "loadBalancerName": {
+      "value": "use2-uphs-core-prd-ilb"
+    },
+    "backendPool1": {
+      "value": "use2-uphs-bep"
+    },
+    "backendPool2": {
+      "value": "use2-psom-bep"
+    },
+    "resourceType": {
+      "value": ""
+    },
+    "costCode": {
+      "value": ""
+    },
+    "entity": {
+      "value": ""
+    },
+    "deploymentEnvironment": {
+      "value": ""
+    }
+  }
+  }

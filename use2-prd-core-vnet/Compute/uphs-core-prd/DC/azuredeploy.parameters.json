@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "subNetName": {
+      "value": "coreprddssub"
+    },
+    "availabilitySetName": {
+      "value": "use2coreprddc-as"
+    },
+    "storageAccName": {
+      "value": "use2coreprdds01st01"
+    },
+    "nicName": {
+      "value": "use2coreprddcvm"
+    },
+    "deviceCount": {
+      "value": 2
+    },
+    "imagePublisher": {
+      "value": "MicrosoftWindowsServer"
+    },
+    "imageOffer": {
+      "value": "WindowsServer"
+    },
+    "vmName": {
+      "value": "azcorusvad1"
+    },
+    "existingDomainName": {
+      "value": "test.local"
+    },
+    "adminUsername": {
+      "value": "localadmin"
+    },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/da985bce-c591-4c11-ba04-2d5615fb7705/resourceGroups/use2-uphs-core-prd-kv-rg/providers/Microsoft.KeyVault/vaults/use2-prd-core-kv"
+        },
+        "secretName": "localadmin"
+      }
+    },
+    "siteName": {
+      "value": "use2-core-prd"
+    },
+    "dcDscArchiveName": {
+      "value": "deploy-addc.ps1.zip"
+    },
+    "dcDscFunction": {
+      "value": "deploy-addc.ps1\\DeployADDC"
+    }
+  }
+}

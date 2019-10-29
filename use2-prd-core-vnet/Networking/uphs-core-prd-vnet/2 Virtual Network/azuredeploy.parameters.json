@@ -1,0 +1,84 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "value": "use2-uphs-core-prd-vnet"
+    },
+    "vnetAddressPrefix": {
+      "value": "10.145.0.0/24"
+    },
+    "subnet1Name": {
+      "value": "GatewaySubnet"
+    },
+    "subnet1Prefix": {
+      "value": "10.145.0.0/27"
+    },
+    "subnet2Name": {
+      "value": "coreprdextsub"
+    },
+    "subnet2Prefix": {
+      "value": "10.145.0.32/27"
+    },
+    "subnet3Name": {
+      "value": "coreprdintsub"
+    },
+    "subnet3Prefix": {
+      "value": "10.145.0.64/27"
+    },
+    "subnet4Name": {
+      "value": "coreprdmgmtsub"
+    },
+    "subnet4Prefix": {
+      "value": "10.145.0.96/27"
+    },
+    "subnet5Name": {
+      "value": "coreprddssub"
+    },
+    "subnet5Prefix": {
+      "value": "10.145.0.128/27"
+    },
+    "subnet6Name": {
+      "value": "coreprdsssub"
+    },
+    "subnet6Prefix": {
+      "value": "10.145.0.160/27"
+    },
+    "subnet7Name": {
+      "value": "coreprdjbxsub"
+    },
+    "subnet7Prefix": {
+      "value": "10.145.0.192/27"
+    },
+    "subnet8Name": {
+      "value": "coreprdsub1"
+    },
+    "subnet8Prefix": {
+      "value": "10.145.0.224/27"
+    },
+    "routeTable1Name": {
+      "value": "use2-uphs-core-prd-gtwy-udr"
+    },
+    "routeTable2Name": {
+      "value": "use2-uphs-core-prd-mgmt-udr"
+    },
+    "routeTable3Name": {
+      "value": "use2-uphs-core-prd-net-udr"
+    },
+    "routeTable4Name": {
+      "value": "use2-uphs-core-prd-jbx-udr"
+    },
+    "resourceType": {
+      "value": ""
+    },
+    "costCode": {
+      "value": ""
+    },
+    "entity": {
+      "value": ""
+    },
+    "deploymentEnvironment": {
+      "value": ""
+    }
+  }
+}

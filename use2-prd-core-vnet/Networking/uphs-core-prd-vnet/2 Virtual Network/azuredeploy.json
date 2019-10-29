@@ -1,0 +1,287 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetAddressPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Address prefix"
+      }
+    },
+    "vnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "VNet name"
+      }
+    },
+    "subnet1Name": {
+      "type": "string",
+      "defaultValue": "GatewaySubnet",
+      "metadata": {
+        "description": "Subnet 1 Name"
+      }
+    },
+    "subnet1Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "GatewaySubnet Prefix"
+      }
+    },
+    "subnet2Name": {
+      "type": "string",
+      "defaultValue": "Subnet2",
+      "metadata": {
+        "description": "Subnet 2 Name"
+      }
+    },
+    "subnet2Prefix": {
+      "type": "string",
+      "defaultValue": "10.145.0.16/28",
+      "metadata": {
+        "description": "Subnet 2 Prefix"
+      }
+    },
+    "subnet3Name": {
+      "type": "string",
+      "defaultValue": "Subnet3",
+      "metadata": {
+        "description": "Subnet 3 Name"
+      }
+    },
+    "subnet3Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 3 Prefix"
+      }
+    },
+    "subnet4Name": {
+      "type": "string",
+      "defaultValue": "Subnet4",
+      "metadata": {
+        "description": "Subnet 4 Name"
+      }
+    },
+    "subnet4Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 4 Prefix"
+      }
+    },
+    "subnet5Name": {
+      "type": "string",
+      "defaultValue": "Subnet5",
+      "metadata": {
+        "description": "Subnet 5 Name"
+      }
+    },
+    "subnet5Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 5 Prefix"
+      }
+    },
+    "subnet6Name": {
+      "type": "string",
+      "defaultValue": "Subnet6",
+      "metadata": {
+        "description": "Subnet 6 Name"
+      }
+    },
+    "subnet6Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 6 Prefix"
+      }
+    },
+    "subnet7Name": {
+      "type": "string",
+      "defaultValue": "Subnet7",
+      "metadata": {
+        "description": "Subnet 7 Name"
+      }
+    },
+    "subnet7Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 7 Prefix"
+      }
+    },
+    "subnet8Name": {
+      "type": "string",
+      "defaultValue": "Subnet8",
+      "metadata": {
+        "description": "Subnet 8 Name"
+      }
+    },
+    "subnet8Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 8 Prefix"
+      }
+    },
+    "routeTable1Name": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 8 Prefix"
+      }
+    },
+    "routeTable2Name": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 8 Prefix"
+      }
+    },
+    "routeTable3Name": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 8 Prefix"
+      }
+    },
+    "routeTable4Name": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 8 Prefix"
+      }
+    },
+    "resourceType": {
+      "type": "string",
+      "defaultValue": "UPDATE: (VM, NVA, DB)",
+      "metadata": {
+        "description": "Resource type tag applied to resources"
+      }
+    },
+    "costCode": {
+      "type": "string",
+      "defaultValue": "UPDATE: (IT2087, UH8979)",
+      "metadata": {
+        "description": "Cost code tag applied to resources"
+      }
+    },
+    "entity": {
+      "type": "string",
+      "defaultValue": "UPHS",
+      "metadata": {
+        "description": "Entity tag applied to resources"
+      }
+    },
+    "deploymentEnvironment": {
+      "type": "string",
+      "defaultValue": "PRD",
+      "metadata": {
+        "description": "Deployment environment tag applied to resources"
+      }
+    }
+  },
+
+  "variables": {
+    "apiVersion": "2017-10-01",
+    "dnsServers": [
+      "10.145.0.36"
+    ],
+    "routeTable1ID": "[resourceId('Microsoft.Network/routeTables', parameters('routeTable1Name'))]",
+    "routeTable2ID": "[resourceId('Microsoft.Network/routeTables', parameters('routeTable2Name'))]",
+    "routeTable3ID": "[resourceId('Microsoft.Network/routeTables', parameters('routeTable3Name'))]",
+    "routeTable4ID": "[resourceId('Microsoft.Network/routeTables', parameters('routeTable4Name'))]"
+
+  },
+  "resources": [
+    {
+      "name": "[parameters('vnetName')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('apiVersion')]",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetAddressPrefix')]"
+          ]
+        },
+        "dhcpOptions": {
+          "dnsServers": "[variables('dnsServers')]"
+        },
+        "subnets": [
+          {
+            "name": "[parameters('subnet1Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet1Prefix')]",
+              "serviceEndpoints": [ { "service": "Microsoft.Storage" } ],
+              "routeTable": {
+                "id": "[variables('routeTable1ID')]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('subnet2Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet2Prefix')]",
+              "serviceEndpoints": [ { "service": "Microsoft.Storage" } ]
+            }
+          },
+          {
+            "name": "[parameters('subnet3Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet3Prefix')]",
+              "serviceEndpoints": [ { "service": "Microsoft.Storage" } ]
+            }
+          },
+          {
+            "name": "[parameters('subnet4Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet4Prefix')]",
+              "serviceEndpoints": [ { "service": "Microsoft.Storage" } ],
+              "routeTable": {
+                "id": "[variables('routeTable2ID')]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('subnet5Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet5Prefix')]",
+              "serviceEndpoints": [ { "service": "Microsoft.Storage" } ],
+              "routeTable": {
+                "id": "[variables('routeTable3ID')]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('subnet6Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet6Prefix')]",
+              "serviceEndpoints": [ { "service": "Microsoft.Storage" } ],
+              "routeTable": {
+                "id": "[variables('routeTable3ID')]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('subnet7Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet7Prefix')]",
+              "serviceEndpoints": [ { "service": "Microsoft.Storage" } ],
+              "routeTable": {
+                "id": "[variables('routeTable4ID')]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('subnet8Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet8Prefix')]",
+              "serviceEndpoints": [ { "service": "Microsoft.Storage" } ],
+              "routeTable": {
+                "id": "[variables('routeTable3ID')]"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

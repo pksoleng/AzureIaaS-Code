@@ -1,0 +1,269 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "use2-ps-core-prd-vnet"
+    },
+    "virtualNetworkResourceGroup": {
+      "type": "string",
+      "defaultValue": "use2-psom-core-prd-net-rg"
+    },
+    "subNetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet name for network interfaces"
+      }
+    },
+    "nicName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "storageAccType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "storageAccName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account name"
+      }
+    },
+    "vmName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "availabilitySetName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "imagePublisher": {
+      "type": "string"
+    },
+    "imageOffer": {
+      "type": "string"
+    },
+    "deviceCount": {
+      "type": "int"
+    },
+    "windowsOsVersion": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview"
+      ]
+    },
+    "existingDomainName": {
+      "type": "string"
+    },
+    "siteName": {
+      "type": "string"
+    },
+    "dcDscArchiveName": {
+      "type": "string"
+    },
+    "dcDscFunction": {
+      "type": "string"
+    },
+    "_artifactsLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
+      }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Auto-generated token to access _artifactsLocation"
+      }
+    }
+  },
+  "variables": {
+    "vNetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vNetID'), '/subnets/', parameters('subNetName'))]",
+    "osDiskName": "[concat(parameters('vmName'), '-os-disk')]",
+    "vmSize": "Standard_D2_v2",
+    "storageAccContainerName": "vhds",
+    "PowerShell DSC ExtensionArchiveFolder": "DSC",
+    "dscUrl": "[concat(parameters('_artifactsLocation'), '/DSC/', parameters('dcDscArchiveName'), parameters('_artifactsLocationSasToken'))]",
+    "dcDscArchiveName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of PowerShell DSC Archive to use, must be available in artifacts location"
+      }
+    },
+    "dcDscFunction": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of DSC config and function to apply, comment out the backslash: dscConfig.ps1\\Function"
+      }
+    }
+  },
+  "resources": [
+    {
+      "name": "[parameters('availabilitySetName')]",
+      "type": "Microsoft.Compute/availabilitySets",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "[parameters('availabilitySetName')]"
+      },
+      "properties": {
+        "platformUpdateDomainCount": 1,
+        "platformFaultDomainCount": 1
+      }
+    },
+    {
+      "name": "[parameters('storageAccName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-01-01",
+      "sku": {
+        "name": "[parameters('storageAccType')]"
+      },
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "[parameters('storageAccName')]"
+      },
+      "kind": "Storage"
+    },
+    {
+      "name": "[concat(parameters('nicName'), 0, copyIndex(1), '-nic1')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "eastus2",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "[concat(parameters('nicName'), 0, copyIndex(1), '-nic1')]"
+      },
+      "copy": {
+        "name": "nicLoop",
+        "count": "[parameters('deviceCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[concat(parameters('vmName'), copyIndex(1))]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "copy": {
+        "name": "vmLoop",
+        "count": "[parameters('deviceCount')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccName') )]",
+        "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]",
+        "[resourceId('Microsoft.Network/networkInterfaces/', concat(parameters('nicName'), 0, copyIndex(1), '-nic1'))]"
+      ],
+      "tags": {
+        "displayName": "[concat(parameters('vmName'), copyIndex(1))]"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('VmSize')]"
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUserName')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('ImagePublisher')]",
+            "offer": "[parameters('ImageOffer')]",
+            "sku": "[parameters('windowsOsVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[concat(parameters('vmName'), copyIndex(1), '-osdisk')]",
+            "vhd": {
+              "uri": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccName')), '2016-01-01').primaryEndpoints.blob, variables('storageAccContainerName'), '/', parameters('vmName'), copyIndex(1), '-osdisk', '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('nicName'), 0, copyIndex(1), '-nic1'))]"
+            }
+          ]
+        }
+      },
+        "resources": [
+          {
+            "name": "[concat(parameters('vmName'), copyIndex(1), '-DSCExt')]",
+            "type": "extensions",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [
+              "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('vmName'), copyIndex(1)))]"
+            ],
+            "tags": {
+              "displayName": "PowerShell DSC Extension"
+            },
+            "properties": {
+              "publisher": "Microsoft.Powershell",
+              "type": "DSC",
+              "typeHandlerVersion": "2.9",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "modulesUrl": "[variables('dscUrl')]",
+                "configurationFunction":  "[variables('dcDscFunction')]",
+                "configurationArguments": {
+                  "domainName": "[parameters('existingDomainName')]",
+                  "adminCreds": {
+                    "userName": "[parameters('adminUserName')]",
+                    "password": "PrivateSettingsRef:adminPassword"
+                  },
+                  "siteName":  "[parameters('siteName')]"
+                }
+              },
+              "protectedSettings": {
+                "items": {
+                  "adminPassword": "[parameters('adminPassword')]"
+                },
+                "configurationUrlSasToken": "[parameters('_artifactsLocationSasToken')]"
+              }
+            }
+          }
+        ]
+    }],
+  "outputs": {}
+}

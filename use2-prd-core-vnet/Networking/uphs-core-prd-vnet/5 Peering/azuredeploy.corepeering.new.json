@@ -1,0 +1,208 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "existingLocalVirtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Set the local VNet name"
+      }
+    },
+    "existing1RemoteVirtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Set the remote VNet name"
+      }
+    },
+    "existing1RemoteVirtualNetworkResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Sets the remote VNet Resource group"
+      }
+    },
+    "existing1RemoteVirtualNetworkSubscriptionID": {
+      "type": "string"
+    },
+    "existing2RemoteVirtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Set the remote VNet name"
+      }
+    },
+    "existing2RemoteVirtualNetworkResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Sets the remote VNet Resource group"
+      }
+    },
+    "existing2RemoteVirtualNetworkSubscriptionID": {
+      "type": "string"
+    },
+    "existing3RemoteVirtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Set the remote VNet name"
+      }
+    },
+    "existing3RemoteVirtualNetworkResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Sets the remote VNet Resource group"
+      }
+    },
+    "existing3RemoteVirtualNetworkSubscriptionID": {
+      "type": "string"
+    },
+    "existing4RemoteVirtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Set the remote VNet name"
+      }
+    },
+    "existing4RemoteVirtualNetworkResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Sets the remote VNet Resource group"
+      }
+    },
+    "existing4RemoteVirtualNetworkSubscriptionID": {
+      "type": "string"
+    },
+    "existing5RemoteVirtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Set the remote VNet name"
+      }
+    },
+    "existing5RemoteVirtualNetworkResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Sets the remote VNet Resource group"
+      }
+    },
+    "existing5RemoteVirtualNetworkSubscriptionID": {
+      "type": "string"
+    },
+    "existing6RemoteVirtualNetworkName": {
+      "type": "string",
+      "metadata": {
+        "description": "Set the remote VNet name"
+      }
+    },
+    "existing6RemoteVirtualNetworkResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Sets the remote VNet Resource group"
+      }
+    },
+    "existing6RemoteVirtualNetworkSubscriptionID": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "peeringName1": "[concat(parameters('existingLocalVirtualNetworkName'), '/peering-to-remote-vnet1')]",
+    "peeringId1": "[concat('/subscriptions/', parameters('existing1RemoteVirtualNetworkSubscriptionID'), '/resourceGroups/', parameters('existing1RemoteVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('existing1RemoteVirtualNetworkName'))]",
+    "peeringName2": "[concat(parameters('existingLocalVirtualNetworkName'), '/peering-to-remote-vnet2')]",
+    "peeringId2": "[concat('/subscriptions/', parameters('existing2RemoteVirtualNetworkSubscriptionID'), '/resourceGroups/', parameters('existing2RemoteVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('existing2RemoteVirtualNetworkName'))]",
+    "peeringName3": "[concat(parameters('existingLocalVirtualNetworkName'), '/peering-to-remote-vnet3')]",
+    "peeringId3": "[concat('/subscriptions/', parameters('existing3RemoteVirtualNetworkSubscriptionID'), '/resourceGroups/', parameters('existing3RemoteVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('existing3RemoteVirtualNetworkName'))]",
+    "peeringName4": "[concat(parameters('existingLocalVirtualNetworkName'), '/peering-to-remote-vnet4')]",
+    "peeringId4": "[concat('/subscriptions/', parameters('existing4RemoteVirtualNetworkSubscriptionID'), '/resourceGroups/', parameters('existing4RemoteVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('existing4RemoteVirtualNetworkName'))]",
+    "peeringName5": "[concat(parameters('existingLocalVirtualNetworkName'), '/peering-to-remote-vnet5')]",
+    "peeringId5": "[concat('/subscriptions/', parameters('existing5RemoteVirtualNetworkSubscriptionID'), '/resourceGroups/', parameters('existing5RemoteVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('existing5RemoteVirtualNetworkName'))]",
+    "peeringName6": "[concat(parameters('existingLocalVirtualNetworkName'), '/peering-to-remote-vnet6')]",
+    "peeringId6": "[concat('/subscriptions/', parameters('existing6RemoteVirtualNetworkSubscriptionID'), '/resourceGroups/', parameters('existing6RemoteVirtualNetworkResourceGroupName'), '/providers/Microsoft.Network/virtualNetworks/', parameters('existing6RemoteVirtualNetworkName'))]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2016-06-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('peeringName1')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": false,
+        "allowGatewayTransit": true,
+        "useRemoteGateways": false,
+        "remoteVirtualNetwork": {
+          "id": "[variables('peeringId1')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2016-06-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('peeringName2')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": false,
+        "allowGatewayTransit": true,
+        "useRemoteGateways": false,
+        "remoteVirtualNetwork": {
+          "id": "[variables('peeringId2')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2016-06-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('peeringName3')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": false,
+        "allowGatewayTransit": true,
+        "useRemoteGateways": false,
+        "remoteVirtualNetwork": {
+          "id": "[variables('peeringId3')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2016-06-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('peeringName4')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": false,
+        "allowGatewayTransit": true,
+        "useRemoteGateways": false,
+        "remoteVirtualNetwork": {
+          "id": "[variables('peeringId4')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2016-06-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('peeringName5')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": false,
+        "allowGatewayTransit": true,
+        "useRemoteGateways": false,
+        "remoteVirtualNetwork": {
+          "id": "[variables('peeringId5')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2016-06-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('peeringName6')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "allowVirtualNetworkAccess": true,
+        "allowForwardedTraffic": false,
+        "allowGatewayTransit": true,
+        "useRemoteGateways": false,
+        "remoteVirtualNetwork": {
+          "id": "[variables('peeringId6')]"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "value": "use2-uphs-ib-vm01"
+    },
+    "location": {
+      "value": "eastus2"
+    },
+    "vmSize": {
+      "value": "Standard_DS12_v2"
+    },
+    "niosModel": {
+      "value": "vnios-te-v820"
+    },
+    "niosVersion": {
+      "value": "latest"
+    },
+    "adminPassword": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-kv-rg/providers/Microsoft.KeyVault/vaults/uphs-prd-core-kv"
+        },
+        "secretName": "localAdmin"
+      }
+    },
+    "virtualNetworkName": {
+      "value": "use2-uphs-core-prd-vnet"
+    },
+    "virtualNetworkExistingRGName": {
+      "value": "use2-uphs-core-prd-net-rg"
+    },
+    "vnetNewOrExisting": {
+      "value": "existing"
+    },
+    "subnet1Prefix": {
+      "value": "10.145.0.160/27"
+    },
+    "subnet1Name": {
+      "value": "coreprdsssub"
+    },
+    "nic1IPAddress": {
+      "value": "10.145.0.166"
+    },
+    "subnet2Prefix": {
+      "value": "10.145.0.96/27"
+    },
+    "subnet2Name": {
+      "value": "coreprdmgmtsub"
+    },
+    "nic2IPAddress": {
+      "value": "10.145.0.103"
+    },
+    "storageAccountName": {
+      "value": "use2coreprdss01st01"
+    },
+    "storageAccountType": {
+      "value": "Premium_LRS"
+    },
+    "storageAccountNewOrExisting": {
+      "value": "existing"
+    },
+    "newStorageAccountForLogsName": {
+      "value": "use2coreprdss01st01diag"
+    },
+    "storageAccountForLogsType": {
+      "value": "Standard_LRS"
+    },
+    "storageAccountForLogsNewOrExisting": {
+      "value": "existing"
+    },
+    "storageAccountForLogsNeedFix": {
+      "value": false
+    },
+    "publicIPAddressName": {
+      "value": ""
+    },
+    "publicIPNewOrExistingOrNone": {
+      "value": "none"
+    },
+    "publicIPExistingRGName": {
+      "value": "use2-uphs-core-prd-rg"
+    },
+    "availabilitySetNewOrExistingOrNone": {
+      "value": "none"
+    },
+    "availabilitySetName": {
+      "value": ""
+    },
+    "tempLicenseOption": {
+      "value": "TE-SoT"
+    },
+    "customData": {
+      "value": ""
+    },
+    "virtualNetworkAddressPrefix": {
+      "value": "10.145.0.0/24"
+    }
+  }
+}

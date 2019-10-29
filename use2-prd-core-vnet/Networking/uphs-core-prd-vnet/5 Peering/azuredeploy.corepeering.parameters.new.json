@@ -1,0 +1,63 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "existingLocalVirtualNetworkName": {
+      "value": "use2-uphs-core-prd-vnet"
+    },
+    "existing1RemoteVirtualNetworkName": {
+      "value": "use2-psom-dev-vnet"
+    },
+    "existing1RemoteVirtualNetworkResourceGroupName": {
+      "value": "use2-psom-dev-net-rg"
+    },
+    "existing1RemoteVirtualNetworkSubscriptionID": {
+      "value": "a1d227b1-f2ea-45b0-b40f-e189d1eaa5e1"
+    },
+    "existing2RemoteVirtualNetworkName": {
+      "value": "use2-psom-qa-vnet"
+    },
+    "existing2RemoteVirtualNetworkResourceGroupName": {
+      "value": "use2-psom-qa-net-rg"
+    },
+    "existing2RemoteVirtualNetworkSubscriptionID": {
+      "value": "519ed605-7dee-421d-8f7e-63d06e9c60eb"
+    },
+    "existing3RemoteVirtualNetworkName": {
+      "value": "use2-psom-prd-vnet"
+    },
+    "existing3RemoteVirtualNetworkResourceGroupName": {
+      "value": "use2-psom-prd-net-rg"
+    },
+    "existing3RemoteVirtualNetworkSubscriptionID": {
+      "value": "dcdf1368-8a4c-4629-b0e6-4696b4083189"
+    },
+    "existing4RemoteVirtualNetworkName": {
+      "value": "use2-uphs-prd-vnet"
+    },
+    "existing4RemoteVirtualNetworkResourceGroupName": {
+      "value": "use2-uphs-prd-net-rg"
+    },
+    "existing4RemoteVirtualNetworkSubscriptionID": {
+      "value": "2f7be13f-60e6-4ae6-9c7a-4f2a44aefbde"
+    },
+    "existing5RemoteVirtualNetworkName": {
+      "value": "use2-uphs-dev-vnet"
+    },
+    "existing5RemoteVirtualNetworkResourceGroupName": {
+      "value": "use2-uphs-dev-net-rg"
+    },
+    "existing5RemoteVirtualNetworkSubscriptionID": {
+      "value": "f873d82f-7491-4045-8dbe-100e2faa1e35"
+    },
+    "existing6RemoteVirtualNetworkName": {
+      "value": "use2-uphs-qa-vnet"
+    },
+    "existing6RemoteVirtualNetworkResourceGroupName": {
+      "value": "use2-uphs-qa-net-rg"
+    },
+    "existing6RemoteVirtualNetworkSubscriptionID": {
+      "value": "94119a0e-93e7-4f8d-8348-9149716aa648"
+    }
+  }
+}

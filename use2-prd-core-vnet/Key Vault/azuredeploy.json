@@ -1,0 +1,91 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "accessPolicies": {
+      "type": "array",
+      "defaultValue": [],
+      "metadata": {
+        "description": "The access policies defined for this vault."
+      }
+    },
+    "enabledForDeployment": {
+      "type": "bool"
+    },
+    "enabledForDiskEncryption": {
+      "type": "bool"
+    },
+    "enabledForTemplateDeployment": {
+      "type": "bool"
+    },
+    "location": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Standard",
+      "metadata": {
+        "description": "SKU for the vault"
+      }
+    },
+    "tenant": {
+      "type": "string"
+    },
+    "vaultname": {
+      "type": "string"
+    },
+    "secret1Name": {
+      "type": "string"
+    },
+    "secret2Name": {
+      "type": "string"
+    },
+    "secret1Key": {
+      "type": "securestring"
+    },
+    "secret2Key": {
+      "type": "securestring"
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-01",
+      "location": "[parameters('location')]",
+      "name": "[parameters('vaultname')]",
+      "properties": {
+        "enabledForDeployment": "[parameters('enabledForDeployment')]",
+        "enabledForTemplateDeployment": "[parameters('enabledForTemplateDeployment')]",
+        "enabledForDiskEncryption": "[parameters('enabledForDiskEncryption')]",
+        "accessPolicies": "[parameters('accessPolicies')]",
+        "tenantId": "[parameters('tenant')]",
+        "sku": {
+          "name": "[parameters('sku')]",
+          "family": "A"
+        }
+      },
+      "type": "Microsoft.KeyVault/vaults"
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "name": "[concat(parameters('vaultname'), '/', parameters('secret1Name'))]",
+      "apiVersion": "2015-06-01",
+      "properties": {
+        "value": "[parameters('secret1Key')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.KeyVault/vaults/', parameters('vaultname'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.KeyVault/vaults/secrets",
+      "name": "[concat(parameters('vaultname'), '/', parameters('secret2Name'))]",
+      "apiVersion": "2015-06-01",
+      "properties": {
+        "value": "[parameters('secret2Key')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.KeyVault/vaults/', parameters('vaultname'))]"
+      ]
+    }
+  ]
+}

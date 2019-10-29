@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "routeTable1Name": {
+      "value": "psom-dev-udr"
+    },
+    "vNetName": {
+      "value": "use2-psom-dev-vnet"
+    },
+    "rt1-Route1": {
+      "value": "DefaultRoute"
+    },
+    "rt1-Route2": {
+      "value": "To-uphs-core-prd-net-rt"
+    },
+    "resourceType": {
+      "value": ""
+    },
+    "costCode": {
+      "value": ""
+    },
+    "entity": {
+      "value": ""
+    },
+    "deploymentEnvironment": {
+      "value": ""
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetName": {
+      "value": "use2-uphs-core-prd-vnet"
+    },
+    "subnet1Name": {
+      "value": "coreprdintsub"
+    },
+    "subnet2Name": {
+      "value": "coreprdmgmtsub"
+    },
+    "vmName": {
+      "value": "use2-up-ib-vm01"
+    },
+    "nic1Name": {
+      "value": "use2coreprdibvm01-nic01"
+    },
+    "nic2Name": {
+      "value": "use2coreprdibvm01-nic02"
+    }
+  }
+}

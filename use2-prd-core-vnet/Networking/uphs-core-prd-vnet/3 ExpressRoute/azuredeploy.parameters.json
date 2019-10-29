@@ -1,0 +1,27 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "circuitName": {
+      "value": "use2-uphs-core-prd-er"
+    },
+    "serviceProviderName": {
+      "value": "Zayo Group"
+    },
+    "peeringLocation": {
+      "value": "Washington DC"
+    },
+    "bandwidthInMbps": {
+      "value": 50
+    },
+    "sku_tier": {
+      "value": "Standard"
+    },
+    "sku_family": {
+      "value": "MeteredData"
+    },
+    "allowClassicOperations": {
+      "value": false
+    }
+  }
+}

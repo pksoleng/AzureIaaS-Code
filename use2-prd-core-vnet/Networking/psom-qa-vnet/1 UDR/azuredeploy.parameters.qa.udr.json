@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "udrName": {
+      "value": "psom-qa-udr"
+    },
+    "vNetName": {
+      "value": "use2-psom-qa-vnet"
+    },
+    "defaultRouteName": {
+      "value": "DefaultRoute"
+    },
+    "routeName": {
+      "value": "To-uphs-core-prd-net-rt"
+    }
+  }
+}

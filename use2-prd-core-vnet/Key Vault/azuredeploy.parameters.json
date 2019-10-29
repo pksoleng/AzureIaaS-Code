@@ -1,0 +1,78 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "accessPolicies": {
+      "value": [
+        {
+          "objectId": "46124c5e-cf95-4409-bb84-08254a1eadf6",
+          "tenantId": "58e32bb7-141e-4bae-af01-f29f2a6613c2",
+          "permissions": {
+            "keys": [
+              "Get",
+              "List",
+              "Update",
+              "Create",
+              "Import",
+              "Delete",
+              "Recover",
+              "Backup",
+              "Restore"
+            ],
+            "secrets": [
+              "Get",
+              "List",
+              "Set",
+              "Delete",
+              "Recover",
+              "Backup",
+              "Restore"
+            ],
+            "certificates": [
+              "Get",
+              "List",
+              "Update",
+              "Create",
+              "Import",
+              "Delete",
+              "Recover",
+              "ManageContacts",
+              "ManageIssuers",
+              "GetIssuers",
+              "ListIssuers",
+              "SetIssuers",
+              "DeleteIssuers"
+            ]
+          }
+        }
+      ]
+    },
+    "secret1Name": {
+      "value": "serviceAdmin"
+    },
+    "secret2Name": {
+      "value": "localAdmin"
+    },
+    "enabledForDeployment": {
+      "value": true
+    },
+    "enabledForDiskEncryption": {
+      "value": true
+    },
+    "enabledForTemplateDeployment": {
+      "value": true
+    },
+    "location": {
+      "value": "eastus2"
+    },
+    "vaultname": {
+      "value": "uphs-prd-core-kv"
+    },
+    "sku": {
+      "value": "Standard"
+    },
+    "tenant": {
+      "value": "58e32bb7-141e-4bae-af01-f29f2a6613c2"
+    }
+  }
+}

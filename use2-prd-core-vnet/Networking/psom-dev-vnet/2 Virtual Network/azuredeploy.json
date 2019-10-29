@@ -1,0 +1,149 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "type": "string",
+      "defaultValue": "psom-use2-dev",
+      "metadata": {
+        "description": "VNet name"
+      }
+    },
+    "vnetAddressPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Address prefix"
+      }
+    },
+    "subnet1Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 1 Prefix"
+      }
+    },
+    "subnet1Name": {
+      "type": "string",
+      "defaultValue": "psomdevsub1",
+      "metadata": {
+        "description": "Subnet 1 Name"
+      }
+    },
+    "subnet2Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 2 Prefix"
+      }
+    },
+    "subnet2Name": {
+      "type": "string",
+      "defaultValue": "psomdevsub2",
+      "metadata": {
+        "description": "Subnet 2 Name"
+      }
+    },
+    "subnet3Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 3 Prefix"
+      }
+    },
+    "subnet3Name": {
+      "type": "string",
+      "defaultValue": "psomdevsub3",
+      "metadata": {
+        "description": "Subnet 3 Name"
+      }
+    },
+    "subnet4Prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Subnet 4 Prefix"
+      }
+    },
+    "subnet4Name": {
+      "type": "string",
+      "defaultValue": "psomdevsub4",
+      "metadata": {
+        "description": "Subnet 4 Name"
+      }
+    },
+    "resourceType": {
+      "type": "string",
+      "defaultValue": "UPDATE: (VM, NVA, DB)",
+      "metadata": {
+        "description": "Resource type tag applied to resources"
+      }
+    },
+    "costCode": {
+      "type": "string",
+      "defaultValue": "UPDATE: (IT2087, UH8979)",
+      "metadata": {
+        "description": "Cost code tag applied to resources"
+      }
+    },
+    "entity": {
+      "type": "string",
+      "defaultValue": "UPHS",
+      "metadata": {
+        "description": "Entity tag applied to resources"
+      }
+    },
+    "deploymentEnvironment": {
+      "type": "string",
+      "defaultValue": "PRD",
+      "metadata": {
+        "description": "Deployment environment tag applied to resources"
+      }
+    }
+  },
+  "variables": {
+    "apiVersion": "2015-06-15"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[parameters('vnetName')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Resource Type": "[parameters('resourceType')]",
+        "Cost Code": "[parameters('costCode')]",
+        "Entity": "[parameters('entity')]",
+        "Deployment Environment": "[parameters('deploymentEnvironment')]"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetAddressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[parameters('subnet1Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet1Prefix')]"
+            }
+          },
+          {
+            "name": "[parameters('subnet2Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet2Prefix')]"
+            }
+          },
+          {
+            "name": "[parameters('subnet3Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet3Prefix')]"
+            }
+          },
+          {
+            "name": "[parameters('subnet4Name')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnet4Prefix')]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

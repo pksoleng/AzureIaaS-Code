@@ -1,0 +1,45 @@
+﻿{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetName": {
+      "value": "use2-uphs-core-prd-vnet"
+    },
+    "subnetName": {
+      "value": "coreprdintsub"
+    },
+    "loadBalancerName": {
+      "value": "use2-uphs-core-prd-ilb"
+    },
+    "frontEndIp1": {
+      "value": "10.145.0.75"
+    },
+    "frontEndIp2": {
+      "value": "10.145.0.76"
+    },
+    "frontEndIpName1": {
+      "value": "use2-uphs-vip"
+    },
+    "frontEndIpName2": {
+      "value": "use2-psom-vip"
+    },
+    "backEndPoolName1": {
+      "value": "use2-uphs-bep"
+    },
+    "backEndPoolName2": {
+      "value": "use2-psom-bep"
+    },
+    "lbRuleName1": {
+      "value": "use2-uphs-lb-rule"
+    },
+    "lbRuleName2": {
+      "value": "use2-psom-lb-rule"
+    },
+    "lbProbe1Name": {
+      "value": "use2-uphs-probe"
+    },
+    "lbProbe2Name": {
+      "value": "use2-psom-probe"
+    }
+  }
+}

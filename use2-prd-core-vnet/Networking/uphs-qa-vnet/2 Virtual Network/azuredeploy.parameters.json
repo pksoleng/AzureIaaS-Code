@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "value": "use2-uphs-qa-vnet"
+    },
+    "vnetAddressPrefix": {
+      "value": "10.145.2.0/24"
+    },
+    "subnet1Prefix": {
+      "value": "10.145.2.0/26"
+    },
+    "subnet1Name": {
+      "value": "GatewaySubnet"
+    },
+    "subnet2Prefix": {
+      "value": "10.145.2.64/26"
+    },
+    "subnet2Name": {
+      "value": "uphsqasub1"
+    },
+    "subnet3Prefix": {
+      "value": "10.145.2.128/26"
+    },
+    "subnet3Name": {
+      "value": "uphsqasub2"
+    },
+    "subnet4Prefix": {
+      "value": "10.145.2.192/26"
+    },
+    "subnet4Name": {
+      "value": "uphsqasub3"
+    },
+    "EnvironmentTag": {
+      "value": "uphs-qa-vnet"
+    }
+  }
+}

@@ -1,0 +1,181 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vNetName": {
+      "type": "string"
+    },
+    "subnet1Name": {
+      "type": "string"
+    },
+    "subnet2Name": {
+      "type": "string"
+    },
+    "vmName": {
+      "type": "string"
+    },
+    "nic1Name": {
+      "type": "string"
+    },
+    "nic2Name": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "vNetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('vNetName'))]",
+    "subnet1Ref": "[concat(variables('vNetId'), parameters('subnet1name'))]",
+    "subnet2Ref": "[concat(variables('vNetId'), parameters('subnet2Name'))]",
+  },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('vmName')]",
+            "apiVersion": "2017-03-30",
+            "location": "eastus2",
+            "plan": {
+                "name": "vnios-te-v820",
+                "product": "infoblox-vnios-te-v1420",
+                "publisher": "infoblox"
+            },
+            "tags": {
+                "Resource Type": "UPDATE: (VM, NVA, DB)",
+                "Cost Code": "UPDATE: (IT2087, UH8979)",
+                "Entity": "UPHS",
+                "Deployment Environment": "PRD"
+            },
+            "scale": null,
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "infoblox",
+                        "offer": "infoblox-vnios-te-v1420",
+                        "sku": "vnios-te-v820",
+                        "version": "810.352813.0"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('vmName'),'65tghopmjedqk')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadOnly"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('vmName')]",
+                    "adminUsername": "65tghopmjedqk",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false
+                    },
+                    "secrets": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nic1Name'))]",
+                            "properties": {
+                                "primary": true
+                            }
+                        },
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nic2Name'))]",
+                            "properties": {
+                                "primary": false
+                            }
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                  "bootDiagnostics": {
+                    "enabled": true,
+                    "storageUri": "/subscriptions/715efb78-31ca-4440-b390-fe6fbd2e5e08/resourceGroups/use2-uphs-core-prd-rg/providers/Microsoft.Storage/storageAccounts/use2coreprdss01st01diag"
+                  }
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('nic1Name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('nic2Name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('nic1Name')]",
+            "apiVersion": "2017-10-01",
+            "location": "eastus2",
+            "tags": {
+                "Resource Type": "UPDATE: (VM, NVA, DB)",
+                "Cost Code": "UPDATE: (IT2087, UH8979)",
+                "Entity": "UPHS",
+                "Deployment Environment": "PRD"
+            },
+            "scale": null,
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.145.0.72",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                                "id": "[variables('subnet1Ref')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": true,
+                "primary": true,
+                "virtualMachine": {
+                    "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('nic2Name')]",
+            "apiVersion": "2017-10-01",
+            "location": "eastus2",
+            "tags": {
+                "Resource Type": "UPDATE: (VM, NVA, DB)",
+                "Cost Code": "UPDATE: (IT2087, UH8979)",
+                "Entity": "UPHS",
+                "Deployment Environment": "PRD"
+            },
+            "scale": null,
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.145.0.104",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                              "id": "[variables('subnet2Ref')]"
+                           },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": [],
+                    "appliedDnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": true,
+                "primary": false,
+                "virtualMachine": {
+                  "id": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+                }
+            }
+        }
+    ]
+}
